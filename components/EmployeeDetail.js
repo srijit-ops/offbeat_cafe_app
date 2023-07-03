@@ -1,36 +1,65 @@
 import { Button, StyleSheet, Text, View, TextInput , Image} from 'react-native'
 import { screenNames } from '../utility/screenNames'
-import {React, useState} from 'react'
+import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import CustomComponent from './CustomComponent'
+import axios from 'axios';
+import {endPoints,base_url} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
+
 const EmployeeDetail = ({navigation}) => {
+  let employeeData
+  const [employeeNames, setemployeeNames] = useState([])
+  const [companyNames, setcompanyNames] = useState([])
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
-  // const [selectedLanguage, setSelectedLanguage] = useState();
-  // const button=customComponent()
-  const companyData = [
-    {key:'1', value:'Mobiles', disabled:true},
-    {key:'2', value:'Appliances'},
-    {key:'3', value:'Cameras'},
-    {key:'4', value:'Computers', disabled:true},
-    {key:'5', value:'Vegetables'},
-    {key:'6', value:'Diary Products'},
-    {key:'7', value:'Drinks'},
-]
 
-  const employeeData = [
-    {key:'1',value:'Jammu & Kashmir'},
-    {key:'2',value:'Gujrat'},
-    {key:'3',value:'Maharashtra'},
-    {key:'4',value:'Goa'},
-  ];
+  useEffect(() => {
+    axios.get(base_url+endPoints[0].employeeURL).then(response => {
+      employeeData = response.data;
+      const newEmployeeNames=employeeData.data.map((data)=>{
+        const obj={}
+        obj['key']=data.ID
+        obj['value']=data.employee_name
+        return obj
+      })
+      setemployeeNames(newEmployeeNames)
+      const newCompanyNamesWithDuplicates=employeeData.data.map((data)=>{
+        const obj={}
+        obj['key']=data.ID
+        obj['value']=data.company_name
+        return obj
+      })
+      function removeDuplicates(array) {
+        var uniqueValues = {};
+
+        return array.filter(function(item) {
+          var value = item.value;
+          
+          if (!uniqueValues[value]) {
+            uniqueValues[value] = true;
+            return true;
+          }
+          
+          return false;
+        });
+      }
+      const newCompanyNames=removeDuplicates(newCompanyNamesWithDuplicates)
+      setcompanyNames(newCompanyNames)
+      })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+    
+  }, [])
+
   const pressHandler=()=>{
     navigation.navigate(screenNames.beverage)
   }
   return (
     <View>
+    {console.log(companyNames)}
       <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
       <Image source={require("../assets/employee2.png")} style={{height:200, width:200, position:"relative", zIndex:1}}/>
       </View>
@@ -46,7 +75,7 @@ const EmployeeDetail = ({navigation}) => {
       </Picker> */}
       <SelectList 
         setSelected={(val) => setSelectedCompany(val)} 
-        data={companyData} 
+        data={companyNames}
         save="value"
     />
       <Text>Enter Room Number</Text>
@@ -54,7 +83,7 @@ const EmployeeDetail = ({navigation}) => {
       <Text>Search employee name</Text>
       <SelectList 
         setSelected={(val) => setSelectedEmployee(val)} 
-        data={employeeData} 
+        data={employeeNames} 
         save="value"
     />
       {/* <SelectList 
