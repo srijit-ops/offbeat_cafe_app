@@ -4,21 +4,22 @@ import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import CustomComponent from './CustomComponent'
 import axios from 'axios';
-import {endPoints,base_url} from '../utility/request'
+import {endPoints,base_url,proxyUrl} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 
 const EmployeeDetail = ({navigation}) => {
-  let employeeData
+  let beverageData
   const [beverageNames, setBeverageNames] = useState([])
   const [beverageSize, setBeverageSize] = useState([])
-  const [selectedEmployee, setSelectedEmployee] = useState("");
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedBeverage, setSelectedBeverage] = useState("");
 
   useEffect(() => {
     console.log(base_url+endPoints[1].employeeURL)
     axios.get(base_url+endPoints[1].employeeURL).then(response => {
       beverageData = response.data;
+      console.log(beverageData)
       const newBeverageNames=beverageData.data.map((data)=>{
         const obj={}
         obj['key']=data.ID
@@ -75,13 +76,13 @@ const EmployeeDetail = ({navigation}) => {
         <Picker.Item label="JavaScript" value="js" />
       </Picker> */}
       <SelectList 
-        setSelected={(val) => setSelectedCompany(val)} 
+        setSelected={(val) => setSelectedBeverage(val)} 
         data={beverageNames}
         save="value"
     />
       <Text>Enter beverage size</Text>
       <SelectList 
-        setSelected={(val) => setSelectedEmployee(val)} 
+        setSelected={(val) => setSelectedSize(val)} 
         data={beverageSize} 
         save="value"
     />

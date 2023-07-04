@@ -4,10 +4,14 @@ import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import CustomComponent from './CustomComponent'
 import axios from 'axios';
-import {endPoints,base_url} from '../utility/request'
+import {endPoints,base_url,proxyUrl} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
-
+const config = {
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  }
+}
 const EmployeeDetail = ({navigation}) => {
   let employeeData
   const [employeeNames, setemployeeNames] = useState([])
