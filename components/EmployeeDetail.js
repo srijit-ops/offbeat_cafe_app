@@ -7,21 +7,28 @@ import axios from 'axios';
 import {endPoints,base_url,proxyUrl} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
-const config = {
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  }
-}
+
 const EmployeeDetail = ({navigation}) => {
-  let employeeData
   const [employeeNames, setemployeeNames] = useState([])
   const [companyNames, setcompanyNames] = useState([])
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
+  let employeeData
 
   useEffect(() => {
     axios.get(base_url+endPoints[0].employeeURL).then(response => {
       employeeData = response.data;
+      function removeDuplicates(array) {
+        let uniqueValues = {};
+        return array.filter(function(item) {
+          let value = item.value.toLowerCase();
+          if (!uniqueValues[value]) {
+            uniqueValues[value] = true;
+            return true;
+          }
+          return false;
+        });
+      }
       const newEmployeeNames=employeeData.data.map((data)=>{
         const obj={}
         obj['key']=data.ID
@@ -35,20 +42,6 @@ const EmployeeDetail = ({navigation}) => {
         obj['value']=data.company_name
         return obj
       })
-      function removeDuplicates(array) {
-        var uniqueValues = {};
-
-        return array.filter(function(item) {
-          var value = item.value;
-          
-          if (!uniqueValues[value]) {
-            uniqueValues[value] = true;
-            return true;
-          }
-          
-          return false;
-        });
-      }
       const newCompanyNames=removeDuplicates(newCompanyNamesWithDuplicates)
       setcompanyNames(newCompanyNames)
       })
@@ -63,7 +56,6 @@ const EmployeeDetail = ({navigation}) => {
   }
   return (
     <View>
-    {console.log(companyNames)}
       <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
       <Image source={require("../assets/employee2.png")} style={{height:200, width:200, position:"relative", zIndex:1}}/>
       </View>

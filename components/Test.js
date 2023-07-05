@@ -24,3 +24,13 @@ const Test = () => {
 export default Test
 
 const styles = StyleSheet.create({})
+// const config = {
+//   headers: {
+//     "Content-Type": "application/x-www-form-urlencoded"
+//   }
+// }
+// const config = {
+//   headers: {
+//     "Content-Type": "application/json"
+//   }
+// }
