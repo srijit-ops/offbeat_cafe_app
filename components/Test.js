@@ -34,3 +34,6 @@ const styles = StyleSheet.create({})
 //     "Content-Type": "application/json"
 //   }
 // }
+
+
+//need selectemployee,selectedcompany,room in beveragedetail comp, so put only these in redux store

@@ -12,6 +12,7 @@ const EmployeeDetail = ({navigation}) => {
   const [employeeNames, setemployeeNames] = useState([])
   const [companyNames, setcompanyNames] = useState([])
   const [selectedEmployee, setSelectedEmployee] = useState("");
+  const [room, setroom] = useState("")
   const [selectedCompany, setSelectedCompany] = useState("");
   let employeeData
 
@@ -53,6 +54,7 @@ const EmployeeDetail = ({navigation}) => {
 
   const pressHandler=()=>{
     navigation.navigate(screenNames.beverage)
+    console.log(selectedCompany,selectedEmployee,room)
   }
   return (
     <View>
@@ -75,7 +77,7 @@ const EmployeeDetail = ({navigation}) => {
         save="value"
     />
       <Text>Enter Room Number</Text>
-      <TextInput keyboardType='numeric' placeholder='enter room number' style={globalStyles.inputBox}/>
+      <TextInput keyboardType='numeric' placeholder='enter room number' onChangeText={(text)=>setroom(text)} style={globalStyles.inputBox}/>
       <Text>Search employee name</Text>
       <SelectList 
         setSelected={(val) => setSelectedEmployee(val)} 

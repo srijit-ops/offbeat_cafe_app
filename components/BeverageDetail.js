@@ -49,35 +49,24 @@ const EmployeeDetail = ({navigation}) => {
     });
   }, [])
 
-  const pressHandler=(e)=>{
-    e.preventDefault()
-    const userData = {
-      name: "MAILll",
-      mail: "PASSWORD"
-    }
-    const config = {
-        headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        }
-      }
+  const pressHandler=()=>{
+    // e.preventDefault()
+    // console.log(e)
+    const userData = JSON.stringify({"name":"sriita sengupta","roomNo":"405","company":"freeflow","beverage":"coffee","size":"small"})
+    // const config = {
+    //     headers: {
+    //     "Content-Type": "application/json"
+    //     }
+    //   }
     // https://script.google.com/macros/s/AKfycbyE15QfNPjVBihENbMK6Tdxj-1pRd1u-LDgN_n2oYWitZBO4JnIoYt7Ajtj20g2JKZi/exec
-  //   try{fetch("https://script.google.com/macros/s/AKfycbwgggnGInptGYf3HP7aT96wHKiYAEGYkoupwsSk29rUqNoBty6Odc1tlza-sujZWzXn/exec",{
-  //     method:"POST",
-  //     body:userData
-  //   })
-  //   console.log("success")
-  // }catch(error){
-  //     console.log(error)
-  //   }
-    
-    axios.post("https://script.google.com/macros/s/AKfycbzJrELHGa2Vw99dZQeLSi6CJHfNTztIkjb0UYIop2moYxch3vRhTD5LNIqlE9mEOs8d/exec", userData,config).then((response) => {
+  
+    axios.post("https://script.google.com/macros/s/AKfycbzvL-_YRDppk2GJfAyRFnhPP6LKlnR25rXK_zobnzkfiHkXz-eYbYPxY8NDSLCe_NsP/exec",userData).then(() => {
       console.log("success");
     })
     .catch(error => {
       console.error('Error:', error);
     })
-    // navigation.navigate(screenNames.beverage)
+    navigation.navigate(screenNames.employee)
   }
   return (
     <View>
