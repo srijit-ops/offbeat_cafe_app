@@ -4,7 +4,10 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import * as Font from 'expo-font';
 import navigatorCreator from "./routes/stackNavigator"
 import {React, useState, useEffect} from "react"
+import {Provider} from 'react-redux';
+import store from "./redux/store"
 export default function App() {
+  console.log(store)
   const [fontsLoaded, setfontsLoaded] = useState(false)
   const loadFonts= async()=>{
     await Font.loadAsync({
@@ -23,9 +26,12 @@ export default function App() {
 
   if(fontsLoaded){
      return (
-      <SafeAreaView style={styles.container}>
+      <Provider store={store}>
+        {console.log("captured")}
+        <SafeAreaView style={styles.container}>
         {component}
       </SafeAreaView>
+      </Provider>
     );
 }else console.log("error")}
 

@@ -4,10 +4,23 @@ import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import CustomComponent from './CustomComponent'
 import axios from 'axios';
-import {endPoints,base_url,proxyUrl} from '../utility/request'
+import {endPoints,base_url} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
+import store from '../redux/store'
+import {connect} from "react-redux"
+import  {selectCompany,selectEmployee,selectRoom} from "../redux/action"
+import initialState from '../redux/initialState'
 
+// console.log(store.dispatch({type:"select"}))
+console.log(selectCompany)
+const mapDispatchToProps = (store) => {
+  return {
+    dispatchCompany: (val) => store.dispatch(selectCompany(val)),
+    dispatchEmployee: (val) => store.dispatch(selectEmployee(val)),
+    dispatchRoom: (val) => store.dispatch(selectRoom(val))
+  };
+};
 const EmployeeDetail = ({navigation}) => {
   const [employeeNames, setemployeeNames] = useState([])
   const [companyNames, setcompanyNames] = useState([])
@@ -15,7 +28,8 @@ const EmployeeDetail = ({navigation}) => {
   const [room, setroom] = useState("")
   const [selectedCompany, setSelectedCompany] = useState("");
   let employeeData
-
+  
+  
   useEffect(() => {
     axios.get(base_url+endPoints[0].employeeURL).then(response => {
       employeeData = response.data;
@@ -49,13 +63,14 @@ const EmployeeDetail = ({navigation}) => {
     .catch(error => {
       console.error('Error:', error);
     });
-    
+    console.log(store)
   }, [])
 
   const pressHandler=()=>{
     navigation.navigate(screenNames.beverage)
     console.log(selectedCompany,selectedEmployee,room)
   }
+  console.log(store)
   return (
     <View>
       <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
@@ -72,15 +87,27 @@ const EmployeeDetail = ({navigation}) => {
         <Picker.Item label="JavaScript" value="js" />
       </Picker> */}
       <SelectList 
-        setSelected={(val) => setSelectedCompany(val)} 
+        setSelected={(val) => {
+          setSelectedCompany(val)
+          console.log("hello")
+          mapDispatchToProps(store).dispatchCompany(val)
+          console.log(store.getState())
+          // dispatchCompany(val)
+        }} 
         data={companyNames}
         save="value"
     />
       <Text>Enter Room Number</Text>
-      <TextInput keyboardType='numeric' placeholder='enter room number' onChangeText={(text)=>setroom(text)} style={globalStyles.inputBox}/>
+      <TextInput keyboardType='numeric' placeholder='enter room number' onChangeText={(text)=>mapDispatchToProps(store).dispatchRoom(text)} style={globalStyles.inputBox}/>
       <Text>Search employee name</Text>
       <SelectList 
-        setSelected={(val) => setSelectedEmployee(val)} 
+        setSelected={(val) => {
+          setSelectedEmployee(val)
+          mapDispatchToProps(store).dispatchEmployee(val)
+          console.log(store.getState())
+          
+        }
+        } 
         data={employeeNames} 
         save="value"
     />
@@ -99,7 +126,9 @@ const EmployeeDetail = ({navigation}) => {
     </View>
   )
 }
-export default EmployeeDetail
+// export default EmployeeDetail
+
+export default connect(mapDispatchToProps)(EmployeeDetail);
 
 const styles = StyleSheet.create({
   searchBar:{

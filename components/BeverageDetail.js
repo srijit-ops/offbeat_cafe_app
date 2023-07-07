@@ -3,9 +3,10 @@ import { screenNames } from '../utility/screenNames'
 import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import axios from 'axios';
-import {endPoints,base_url,proxyUrl} from '../utility/request'
+import {endPoints,base_url} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
+import store from '../redux/store';
 
 const EmployeeDetail = ({navigation}) => {
   const [beverageNames, setBeverageNames] = useState([])
@@ -16,6 +17,7 @@ const EmployeeDetail = ({navigation}) => {
   useEffect(() => {
     axios.get(base_url+endPoints[1].beverageURL).then(response => {
       beverageData = response.data;
+      console.log(beverageData.data[0].price)
       function removeDuplicates(array) {
         let uniqueValues = {};
         return array.filter(function(item) {
@@ -50,9 +52,18 @@ const EmployeeDetail = ({navigation}) => {
   }, [])
 
   const pressHandler=()=>{
+    const finalData={}
     // e.preventDefault()
     // console.log(e)
-    const userData = JSON.stringify({"name":"sriita sengupta","roomNo":"405","company":"freeflow","beverage":"coffee","size":"small"})
+    finalData["name"]= store.getState().selectedEmployee
+    finalData["company"]= store.getState().selectedCompany
+    finalData["room"]= store.getState().room
+    finalData["beverage"]=selectedBeverage
+    finalData["beverageSize"]=selectedSize
+    finalData["price"]="67"
+    console.log(finalData)
+    // const userData = JSON.stringify({"name":"sriita sengupta","roomNo":"405","company":"freeflow","beverage":"coffee","size":"small"})
+    const userData = JSON.stringify(finalData)
     // const config = {
     //     headers: {
     //     "Content-Type": "application/json"
