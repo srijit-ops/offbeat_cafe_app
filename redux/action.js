@@ -1,4 +1,5 @@
 import {selecting_company,selecting_employee,selecting_room} from "../redux/actionTypes"
+import { screenNames } from '../utility/screenNames'
 const selectCompany=(companyName)=>{
     return{
         type:selecting_company,
@@ -18,4 +19,18 @@ const selectRoom=(roomNumber)=>{
     }
 }
 console.log(selectCompany())
-export {selectCompany,selectEmployee,selectRoom}
+const updateStateAndNavigate = (newState) => {
+    return (dispatch) => {
+      dispatch(selectCompany(newState));
+      dispatch(selectEmployee(newState));
+      dispatch(selectRoom(newState));
+      dispatch(navigateToNewScreenAction());
+    };
+  };
+  
+  const navigateToNewScreenAction = () => {
+    return (dispatch) => {
+      dispatch(navigation.navigate(screenNames.employee))
+    };
+  };
+export {selectCompany,selectEmployee,selectRoom,updateStateAndNavigate,navigateToNewScreenAction}

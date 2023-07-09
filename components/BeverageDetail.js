@@ -1,23 +1,39 @@
-import { Button, StyleSheet, Text, View, TextInput , Image} from 'react-native'
-import { screenNames } from '../utility/screenNames'
+import { Button, StyleSheet, Text, View,Image} from 'react-native'
 import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import axios from 'axios';
 import {endPoints,base_url} from '../utility/request'
-// import {Picker} from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import store from '../redux/store';
+import {connect} from "react-redux"
+import  {updateStateAndNavigate} from "../redux/action"
 
-const EmployeeDetail = ({navigation}) => {
+const mapDispatchToProps = (store) => {
+  return {
+    dispatchStateAndNavigate: (val) => store.dispatch(updateStateAndNavigate(val))
+  };
+};
+const BeverageDetail = () => {
+  const finalData={}
   const [beverageNames, setBeverageNames] = useState([])
   const [beverageSize, setBeverageSize] = useState([])
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedBeverage, setSelectedBeverage] = useState("");
-  let beverageData
+  const [price, setprice] = useState("")
+  const [beverageData, setbeverageData] = useState([])
+  
   useEffect(() => {
     axios.get(base_url+endPoints[1].beverageURL).then(response => {
-      beverageData = response.data;
-      console.log(beverageData.data[0].price)
+      console.log(response.data)
+      setbeverageData(response.data)
+      console.log(beverageData)
+      })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }, [])
+  useEffect(() => {
+    setTimeout(()=>{
       function removeDuplicates(array) {
         let uniqueValues = {};
         return array.filter(function(item) {
@@ -29,55 +45,74 @@ const EmployeeDetail = ({navigation}) => {
           return false;
         });
       }
-      const newBeverageNamesWithDuplicates=beverageData.data.map((data)=>{
-        const obj={}
-        obj['key']=data.ID
-        obj['value']=data.beverage_name
-        return obj
-      })
-      const newBeverageNames=removeDuplicates(newBeverageNamesWithDuplicates)
-      setBeverageNames(newBeverageNames)
-      const newBeverageSizeWithDuplicates=beverageData.data.map((data)=>{
-        const obj={}
-        obj['key']=data.ID
-        obj['value']=data.size
-        return obj
-      })
-      const newBeverageSize=removeDuplicates(newBeverageSizeWithDuplicates)
-      setBeverageSize(newBeverageSize)
-      })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }, [])
+        if(beverageData.data){
+          const newBeverageNamesWithDuplicates=beverageData.data.map((data)=>{
+            const obj={}
+            obj['key']=data.ID
+            obj['value']=data.beverage_name
+            return obj
+          })
+          const newBeverageNames=removeDuplicates(newBeverageNamesWithDuplicates)
+          setBeverageNames(newBeverageNames)
+          const newBeverageSizeWithDuplicates=beverageData.data.map((data)=>{
+            const obj={}
+            obj['key']=data.ID
+            obj['value']=data.size
+            return obj
+          })
+          const newBeverageSize=removeDuplicates(newBeverageSizeWithDuplicates)
+          setBeverageSize(newBeverageSize)
+        }
+    },0)
+    
+    }
+  , [beverageData])
 
-  const pressHandler=()=>{
-    const finalData={}
-    // e.preventDefault()
-    // console.log(e)
-    finalData["name"]= store.getState().selectedEmployee
+  useEffect(() => {
+    console.log(selectedBeverage,selectedSize)
+    setTimeout(() => {
+      if(selectedBeverage&&selectedSize){
+        for(let i=0;i<beverageData.data.length;i++){
+          console.log(beverageData.data[i])
+          if(beverageData.data[i].beverage_name===selectedBeverage && beverageData.data[i].size===selectedSize){
+            setprice(beverageData.data[i].price)
+            // price= i.price
+            console.log(beverageData.data[i].price)
+            
+          }else console.log("omg")
+        }
+      }else console.log("fuck off")
+      
+    }, 1000);
+    
+  }, [selectedBeverage,selectedSize]) 
+
+  useEffect(() => {
+   
+      finalData["name"]= store.getState().selectedEmployee
     finalData["company"]= store.getState().selectedCompany
     finalData["room"]= store.getState().room
     finalData["beverage"]=selectedBeverage
     finalData["beverageSize"]=selectedSize
-    finalData["price"]="67"
+    console.log(price)
+    finalData["price"]=price
     console.log(finalData)
-    // const userData = JSON.stringify({"name":"sriita sengupta","roomNo":"405","company":"freeflow","beverage":"coffee","size":"small"})
-    const userData = JSON.stringify(finalData)
-    // const config = {
-    //     headers: {
-    //     "Content-Type": "application/json"
-    //     }
-    //   }
-    // https://script.google.com/macros/s/AKfycbyE15QfNPjVBihENbMK6Tdxj-1pRd1u-LDgN_n2oYWitZBO4JnIoYt7Ajtj20g2JKZi/exec
+
+   
+    
+  }, [price]) 
   
+  const pressHandler=()=>{
+    console.log(finalData)
+    const userData = JSON.stringify(finalData)
     axios.post("https://script.google.com/macros/s/AKfycbzvL-_YRDppk2GJfAyRFnhPP6LKlnR25rXK_zobnzkfiHkXz-eYbYPxY8NDSLCe_NsP/exec",userData).then(() => {
       console.log("success");
     })
     .catch(error => {
       console.error('Error:', error);
     })
-    navigation.navigate(screenNames.employee)
+    mapDispatchToProps(store).dispatchStateAndNavigate("")
+    
   }
   return (
     <View>
@@ -87,14 +122,6 @@ const EmployeeDetail = ({navigation}) => {
       </View>
       <Text style={globalStyles.heading}>Beverage Details</Text>
       <Text>Enter Beverage Name</Text>
-      {/* <Picker
-        selectedValue={selectedLanguage}
-        onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker> */}
       <SelectList 
         setSelected={(val) => setSelectedBeverage(val)} 
         data={beverageNames}
@@ -106,24 +133,12 @@ const EmployeeDetail = ({navigation}) => {
         data={beverageSize} 
         save="value"
     />
-      {/* <SelectList 
-      onSelect={() => alert(selectedEmployee)}
-      setSelected={setSelectedEmployee} 
-      data={employeeData}  
-      arrowicon={<Image source={require("../assets/down-arrow.png")} style={styles.searchBar}/>} 
-      searchicon={<Image source={require("../assets/loupe.png")} style={styles.searchBar}/>} 
-      search={true} 
-      boxStyles={{borderRadius:0}} //override default styles
-      defaultOption={{ key:'1', value:'Jammu & Kashmir' }}   //default selected option
-    /> */}
-    
       <Button title='Submit' onPress={pressHandler} style={globalStyles.button}/>
     </View>
   )
 }
-export default EmployeeDetail
+export default connect(mapDispatchToProps)(BeverageDetail);
 
-// https://script.google.com/macros/s/AKfycbzN5JW4wb2bp33SNGP9OHuPgYE8C6XzVGI74UyNGBeK3IvIsC_YrwGrvU-Bjddn8c-e/exec
 
 const styles = StyleSheet.create({
   searchBar:{

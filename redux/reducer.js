@@ -1,10 +1,5 @@
 import {selecting_company,selecting_employee,selecting_room} from "./actionTypes"
 import initialState from "./initialState"
-// let initialState={
-//     room:"",
-//     selectedEmployee:"",
-//     selectedCompany:""
-// }
 const reducer=(state=initialState,action)=>{
     console.log(action.type)
     console.log(state)

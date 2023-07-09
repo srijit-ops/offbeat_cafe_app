@@ -10,10 +10,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import store from '../redux/store'
 import {connect} from "react-redux"
 import  {selectCompany,selectEmployee,selectRoom} from "../redux/action"
-import initialState from '../redux/initialState'
 
-// console.log(store.dispatch({type:"select"}))
-console.log(selectCompany)
 const mapDispatchToProps = (store) => {
   return {
     dispatchCompany: (val) => store.dispatch(selectCompany(val)),
@@ -29,7 +26,7 @@ const EmployeeDetail = ({navigation}) => {
   const [selectedCompany, setSelectedCompany] = useState("");
   let employeeData
   
-  
+  console.log(selectedEmployee)
   useEffect(() => {
     axios.get(base_url+endPoints[0].employeeURL).then(response => {
       employeeData = response.data;
@@ -78,14 +75,6 @@ const EmployeeDetail = ({navigation}) => {
       </View>
       <Text style={globalStyles.heading}>Employee Details</Text>
       <Text>Enter Company Name</Text>
-      {/* <Picker
-        selectedValue={selectedLanguage}
-        onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker> */}
       <SelectList 
         setSelected={(val) => {
           setSelectedCompany(val)
@@ -111,22 +100,11 @@ const EmployeeDetail = ({navigation}) => {
         data={employeeNames} 
         save="value"
     />
-      {/* <SelectList 
-      onSelect={() => alert(selectedEmployee)}
-      setSelected={setSelectedEmployee} 
-      data={employeeData}  
-      arrowicon={<Image source={require("../assets/down-arrow.png")} style={styles.searchBar}/>} 
-      searchicon={<Image source={require("../assets/loupe.png")} style={styles.searchBar}/>} 
-      search={true} 
-      boxStyles={{borderRadius:0}} //override default styles
-      defaultOption={{ key:'1', value:'Jammu & Kashmir' }}   //default selected option
-    /> */}
-    <CustomComponent title="done"/>
+    {/* <CustomComponent title="done"/> */}
       <Button title='Done' onPress={pressHandler} style={globalStyles.button}/>
     </View>
   )
 }
-// export default EmployeeDetail
 
 export default connect(mapDispatchToProps)(EmployeeDetail);
 
