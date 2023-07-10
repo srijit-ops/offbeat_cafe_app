@@ -7,10 +7,12 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import store from '../redux/store';
 import {connect} from "react-redux"
 import  {updateStateAndNavigate} from "../redux/action"
+import { useNavigation } from '@react-navigation/native';
+import { screenNames } from '../utility/screenNames'
 
 const mapDispatchToProps = (store) => {
   return {
-    dispatchStateAndNavigate: (val) => store.dispatch(updateStateAndNavigate(val))
+    dispatchStateAndNavigate: (val,navigation) => store.dispatch(updateStateAndNavigate(val,navigation))
   };
 };
 const BeverageDetail = () => {
@@ -21,7 +23,7 @@ const BeverageDetail = () => {
   const [selectedBeverage, setSelectedBeverage] = useState("");
   const [price, setprice] = useState("")
   const [beverageData, setbeverageData] = useState([])
-  
+  const navigation= useNavigation()
   useEffect(() => {
     axios.get(base_url+endPoints[1].beverageURL).then(response => {
       console.log(response.data)
@@ -96,7 +98,7 @@ const BeverageDetail = () => {
     finalData["beverageSize"]=selectedSize
     console.log(price)
     finalData["price"]=price
-    console.log(finalData)
+    console.log(store.getState().selectedEmployee)
 
    
     
@@ -111,7 +113,8 @@ const BeverageDetail = () => {
     .catch(error => {
       console.error('Error:', error);
     })
-    mapDispatchToProps(store).dispatchStateAndNavigate("")
+    console.log(navigation)
+    mapDispatchToProps(store).dispatchStateAndNavigate("",navigation)
     
   }
   return (

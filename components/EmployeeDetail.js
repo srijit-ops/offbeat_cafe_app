@@ -19,15 +19,20 @@ const mapDispatchToProps = (store) => {
   };
 };
 const EmployeeDetail = ({navigation}) => {
+  // if( document.getElementsByClassName("css-text-1rynq56")[2]){
+  //   document.getElementsByClassName("css-text-1rynq56")[2].innerText=store.getState().selectedCompany
+  // }
+ 
   const [employeeNames, setemployeeNames] = useState([])
   const [companyNames, setcompanyNames] = useState([])
-  const [selectedEmployee, setSelectedEmployee] = useState("");
-  const [room, setroom] = useState("")
-  const [selectedCompany, setSelectedCompany] = useState("");
+  // const [selectedEmployee, setSelectedEmployee] = useState("");
+  // const [room, setroom] = useState(store.getState().selectedCompany)
+  // const [selectedCompany, setSelectedCompany] = useState(store.getState().selectedCompany);
   let employeeData
-  
-  console.log(selectedEmployee)
+  console.log(store.getState())
+  // console.log(selectedEmployee)
   useEffect(() => {
+    console.log("reached")
     axios.get(base_url+endPoints[0].employeeURL).then(response => {
       employeeData = response.data;
       function removeDuplicates(array) {
@@ -64,8 +69,9 @@ const EmployeeDetail = ({navigation}) => {
   }, [])
 
   const pressHandler=()=>{
+    console.log(navigation)
     navigation.navigate(screenNames.beverage)
-    console.log(selectedCompany,selectedEmployee,room)
+    // console.log(selectedCompany,selectedEmployee,room)
   }
   console.log(store)
   return (
@@ -75,23 +81,27 @@ const EmployeeDetail = ({navigation}) => {
       </View>
       <Text style={globalStyles.heading}>Employee Details</Text>
       <Text>Enter Company Name</Text>
+      {/* {console.log(selectedCompany)} */}
+      {console.log(store.getState())}
       <SelectList 
         setSelected={(val) => {
-          setSelectedCompany(val)
-          console.log("hello")
+          // setSelectedCompany(val)
+          console.log(val)
           mapDispatchToProps(store).dispatchCompany(val)
           console.log(store.getState())
           // dispatchCompany(val)
         }} 
         data={companyNames}
         save="value"
+        value={store.getState().selectedCompany}
     />
       <Text>Enter Room Number</Text>
-      <TextInput keyboardType='numeric' placeholder='enter room number' onChangeText={(text)=>mapDispatchToProps(store).dispatchRoom(text)} style={globalStyles.inputBox}/>
+      <TextInput keyboardType='numeric' placeholder="enter room no" onChangeText={(text)=>mapDispatchToProps(store).dispatchRoom(text)} value={store.getState().room} style={globalStyles.inputBox}/>
       <Text>Search employee name</Text>
+      {console.log(employeeNames)}
       <SelectList 
         setSelected={(val) => {
-          setSelectedEmployee(val)
+          // setSelectedEmployee(val)
           mapDispatchToProps(store).dispatchEmployee(val)
           console.log(store.getState())
           
