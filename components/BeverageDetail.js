@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View,Image} from 'react-native'
+import { Button, StyleSheet, Text, View,Image, ScrollView, Pressable} from 'react-native'
 import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
 import axios from 'axios';
@@ -9,6 +9,7 @@ import {connect} from "react-redux"
 import  {updateStateAndNavigate} from "../redux/action"
 import { useNavigation } from '@react-navigation/native';
 import { screenNames } from '../utility/screenNames'
+
 
 const mapDispatchToProps = (store) => {
   return {
@@ -107,7 +108,9 @@ const BeverageDetail = () => {
   const pressHandler=()=>{
     console.log(finalData)
     const userData = JSON.stringify(finalData)
-    axios.post("https://script.google.com/macros/s/AKfycbzvL-_YRDppk2GJfAyRFnhPP6LKlnR25rXK_zobnzkfiHkXz-eYbYPxY8NDSLCe_NsP/exec",userData).then(() => {
+    // https://script.google.com/macros/s/AKfycbzvL-_YRDppk2GJfAyRFnhPP6LKlnR25rXK_zobnzkfiHkXz-eYbYPxY8NDSLCe_NsP/exec
+    // https://script.google.com/macros/s/AKfycbwdelgLBZqPCDbUGdcj94oVUtq4JzfyOLVlg2F2B50uLt2sg462T65aB7NuveRdDiQY/exec final
+    axios.post("https://script.google.com/macros/s/AKfycby5RDmCpoi9sVW-gtYTAm1R6DxxzmcEbswB2GhEW6_ZKlyOT09GmAnljz6eG8K-Ew9E/exec",userData).then(() => {
       console.log("success");
     })
     .catch(error => {
@@ -118,26 +121,29 @@ const BeverageDetail = () => {
     
   }
   return (
-    <View>
+    <ScrollView style={globalStyles.rootView}>
     {console.log(beverageNames)}
       <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
-      <Image source={require("../assets/employee2.png")} style={{height:200, width:200, position:"relative", zIndex:1}}/>
+      <Image source={require("../assets/beverage1.png")} style={{height:300, width:300, position:"relative", zIndex:1}}/>
       </View>
       <Text style={globalStyles.heading}>Beverage Details</Text>
-      <Text>Enter Beverage Name</Text>
-      <SelectList 
+      <Text style={globalStyles.label}>Enter Beverage Name</Text>
+      <SelectList boxStyles={{borderRadius: 7, paddingVertical:13, marginBottom:13}} fontFamily='SignikaRegular'
         setSelected={(val) => setSelectedBeverage(val)} 
         data={beverageNames}
         save="value"
     />
-      <Text>Enter beverage size</Text>
-      <SelectList 
+      <Text style={globalStyles.label}>Enter beverage size</Text>
+      <SelectList boxStyles={{borderRadius: 7, paddingVertical:13, marginBottom:13}} fontFamily='SignikaRegular'
         setSelected={(val) => setSelectedSize(val)} 
         data={beverageSize} 
         save="value"
     />
-      <Button title='Submit' onPress={pressHandler} style={globalStyles.button}/>
-    </View>
+    <Pressable style={globalStyles.button} onPress={pressHandler}>
+      <Text style={globalStyles.buttonText}>Submit</Text>
+    </Pressable>
+      {/* <Button title='Submit' onPress={pressHandler} style={globalStyles.button}/> */}
+    </ScrollView>
   )
 }
 export default connect(mapDispatchToProps)(BeverageDetail);

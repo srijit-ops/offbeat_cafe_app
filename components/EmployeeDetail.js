@@ -1,8 +1,8 @@
-import { Button, StyleSheet, Text, View, TextInput , Image} from 'react-native'
+import { Button, StyleSheet, Text, View, TextInput , Image,Pressable, ScrollView} from 'react-native'
 import { screenNames } from '../utility/screenNames'
 import {React, useState,useEffect} from 'react'
 import { globalStyles } from '../styles/globalStyles'
-import CustomComponent from './CustomComponent'
+// import CustomComponent from './CustomComponent'
 import axios from 'axios';
 import {endPoints,base_url} from '../utility/request'
 // import {Picker} from '@react-native-picker/picker';
@@ -22,7 +22,7 @@ const EmployeeDetail = ({navigation}) => {
   // if( document.getElementsByClassName("css-text-1rynq56")[2]){
   //   document.getElementsByClassName("css-text-1rynq56")[2].innerText=store.getState().selectedCompany
   // }
- 
+  const [selected, setselected] = useState(store.getState().selectedEmployee)
   const [employeeNames, setemployeeNames] = useState([])
   const [companyNames, setcompanyNames] = useState([])
   // const [selectedEmployee, setSelectedEmployee] = useState("");
@@ -75,44 +75,46 @@ const EmployeeDetail = ({navigation}) => {
   }
   console.log(store)
   return (
-    <View>
-      <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
-      <Image source={require("../assets/employee2.png")} style={{height:200, width:200, position:"relative", zIndex:1}}/>
+    <ScrollView style={globalStyles.rootView}>
+      <View style={globalStyles.employeeImg}>
+      <Image source={require("../assets/employee4.png")} style={{height:300, width:300}}/>
       </View>
       <Text style={globalStyles.heading}>Employee Details</Text>
-      <Text>Enter Company Name</Text>
+      <Text style={globalStyles.label}>Enter Company Name</Text>
       {/* {console.log(selectedCompany)} */}
       {console.log(store.getState())}
-      <SelectList 
+      <SelectList boxStyles={{borderRadius: 7, paddingVertical:13, marginBottom:13}} fontFamily='SignikaRegular'
         setSelected={(val) => {
           // setSelectedCompany(val)
           console.log(val)
           mapDispatchToProps(store).dispatchCompany(val)
           console.log(store.getState())
-          // dispatchCompany(val)
         }} 
         data={companyNames}
         save="value"
-        value={store.getState().selectedCompany}
     />
-      <Text>Enter Room Number</Text>
+      <Text style={globalStyles.label}>Enter Room Number</Text>
       <TextInput keyboardType='numeric' placeholder="enter room no" onChangeText={(text)=>mapDispatchToProps(store).dispatchRoom(text)} value={store.getState().room} style={globalStyles.inputBox}/>
-      <Text>Search employee name</Text>
+      <Text style={globalStyles.label}>Search employee name</Text>
       {console.log(employeeNames)}
-      <SelectList 
+      <SelectList boxStyles={{borderRadius: 7, paddingVertical:13}} fontFamily='SignikaRegular' val={store.getState().selectedEmployee}
         setSelected={(val) => {
-          // setSelectedEmployee(val)
-          mapDispatchToProps(store).dispatchEmployee(val)
-          console.log(store.getState())
-          
+          // setselected(val)
+          mapDispatchToProps(store).dispatchEmployee(val) 
         }
+        
         } 
         data={employeeNames} 
         save="value"
     />
     {/* <CustomComponent title="done"/> */}
-      <Button title='Done' onPress={pressHandler} style={globalStyles.button}/>
-    </View>
+   
+    <Pressable style={globalStyles.button} onPress={pressHandler}>
+      <Text style={globalStyles.buttonText}>Next</Text>
+    </Pressable>
+    
+      {/* <Button title='Done' onPress={pressHandler} style={globalStyles.button}/> */}
+    </ScrollView>
   )
 }
 
