@@ -1,11 +1,61 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 
 export const globalStyles = StyleSheet.create({
     rootView:{
-        paddingHorizontal:25
+        paddingHorizontal:25,
+        justifyContent:"center",
+        ...Platform.select({
+            ios: {
+        flexDirection:"column-reverse"
     },
+    android: {
+        flexDirection:"column-reverse"
+    },
+    default: {
+        flexDirection:"row"
+    }
+})},
     employeeImg:{
-        flex:1, justifyContent:"center",alignItems:"center"
+        flex:1, justifyContent:"center",alignItems:"center",
+        ...Platform.select({
+            ios: {
+                 width:"100%"
+    },
+    android: {
+        width:"100%"
+    },
+    default: {
+         width:"40%"
+    }
+})
+    },
+    img:{
+        ...Platform.select({
+            ios: {
+                height:300, width:300
+    },
+    android: {
+        height:300, width:300
+    },
+    default: {
+        height:500, width:500
+    }
+})
+        
+    },
+    formContainer:{
+        ...Platform.select({
+            ios: {
+                flex:1
+    },
+    android: {
+        flex:1
+    },
+    default: {
+        flex:2
+    }
+})
+        
     },
     heading:{
         fontSize:31,

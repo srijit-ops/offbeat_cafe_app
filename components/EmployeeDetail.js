@@ -75,10 +75,9 @@ const EmployeeDetail = ({navigation}) => {
   }
   console.log(store)
   return (
-    <ScrollView style={globalStyles.rootView}>
-      <View style={globalStyles.employeeImg}>
-      <Image source={require("../assets/employee4.png")} style={{height:300, width:300}}/>
-      </View>
+    <ScrollView contentContainerStyle={globalStyles.rootView}>
+
+      <View style={globalStyles.formContainer}>
       <Text style={globalStyles.heading}>Employee Details</Text>
       <Text style={globalStyles.label}>Enter Company Name</Text>
       {/* {console.log(selectedCompany)} */}
@@ -113,6 +112,10 @@ const EmployeeDetail = ({navigation}) => {
       <Text style={globalStyles.buttonText}>Next</Text>
     </Pressable>
     
+      </View>
+      <View style={globalStyles.employeeImg}>
+      <Image source={require("../assets/employee4.png")} style={globalStyles.img}/>
+      </View>
       {/* <Button title='Done' onPress={pressHandler} style={globalStyles.button}/> */}
     </ScrollView>
   )

@@ -4,10 +4,10 @@
     "slug": "offbeat_cafe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "https://img.freepik.com/premium-vector/illustration-indian-popular-hot-drink-chai_625445-1.jpg?size=626&ext=jpg&ga=GA1.2.1939106763.1683462495&semt=ais",
+    "icon": "./assets/splashf.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "https://img.freepik.com/premium-vector/illustration-indian-popular-hot-drink-chai_625445-1.jpg?size=626&ext=jpg&ga=GA1.2.1939106763.1683462495&semt=ais",
+      "image": "./assets/splashf.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,17 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "https://img.freepik.com/premium-vector/illustration-indian-popular-hot-drink-chai_625445-1.jpg?size=626&ext=jpg&ga=GA1.2.1939106763.1683462495&semt=ais",
+        "foregroundImage": "./assets/splashf.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "750eba5f-2a71-48a3-86f9-e6b64b48f3d7"
+      }
     }
   }
 }
