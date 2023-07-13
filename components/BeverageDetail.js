@@ -121,11 +121,9 @@ const BeverageDetail = () => {
     
   }
   return (
-    <ScrollView style={globalStyles.rootView}>
+    <ScrollView contentContainerStyle={globalStyles.rootView}>
     {console.log(beverageNames)}
-      <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
-      <Image source={require("../assets/beverage1.png")} style={{height:300, width:300, position:"relative", zIndex:1}}/>
-      </View>
+      <View style={globalStyles.formContainer}>
       <Text style={globalStyles.heading}>Beverage Details</Text>
       <Text style={globalStyles.label}>Enter Beverage Name</Text>
       <SelectList boxStyles={{borderRadius: 7, paddingVertical:13, marginBottom:13}} fontFamily='SignikaRegular'
@@ -134,7 +132,7 @@ const BeverageDetail = () => {
         save="value"
     />
       <Text style={globalStyles.label}>Enter beverage size</Text>
-      <SelectList boxStyles={{borderRadius: 7, paddingVertical:13, marginBottom:13}} fontFamily='SignikaRegular'
+      <SelectList boxStyles={{borderRadius: 7, paddingVertical:13}} fontFamily='SignikaRegular'
         setSelected={(val) => setSelectedSize(val)} 
         data={beverageSize} 
         save="value"
@@ -142,7 +140,10 @@ const BeverageDetail = () => {
     <Pressable style={globalStyles.button} onPress={pressHandler}>
       <Text style={globalStyles.buttonText}>Submit</Text>
     </Pressable>
-      {/* <Button title='Submit' onPress={pressHandler} style={globalStyles.button}/> */}
+      </View>
+      <View style={{flex:1, justifyContent:"center",alignItems:"center", position:"relative", zIndex:1}}>
+      <Image source={require("../assets/beverage1.png")} style={globalStyles.img}/>
+      </View>
     </ScrollView>
   )
 }

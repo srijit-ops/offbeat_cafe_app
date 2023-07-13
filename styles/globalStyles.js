@@ -4,15 +4,20 @@ export const globalStyles = StyleSheet.create({
     rootView:{
         paddingHorizontal:25,
         justifyContent:"center",
+        
         ...Platform.select({
             ios: {
-        flexDirection:"column-reverse"
+        flexDirection:"column-reverse",
+        marginTop:0
     },
     android: {
-        flexDirection:"column-reverse"
+        flexDirection:"column-reverse",
+        marginTop:0
     },
     default: {
-        flexDirection:"row"
+        flexDirection:"row",
+        marginTop:60,
+        alignItems:"center"
     }
 })},
     employeeImg:{

@@ -1,5 +1,5 @@
 export const screenNames={
     employee:"Employee Details",
     beverage:"Beverage Details",
-    some:"some"
+    logs:"Previous logs"
 }

@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 // import { useFonts } from 'expo-font';
 import * as Font from 'expo-font';
-import navigatorCreator from "./routes/stackNavigator"
+import navigatorCreator from "./routes/EmployeeStack"
 import {React, useState, useEffect} from "react"
 import {Provider} from 'react-redux';
 import store from "./redux/store"
+import BottomTabs from './routes/BottomTabs';
 export default function App() {
   console.log(store)
   const [fontsLoaded, setfontsLoaded] = useState(false)
@@ -29,7 +30,7 @@ export default function App() {
       <Provider store={store}>
         {console.log("captured")}
         <SafeAreaView style={styles.container}>
-        {component}
+        <BottomTabs/>
       </SafeAreaView>
       </Provider>
     );

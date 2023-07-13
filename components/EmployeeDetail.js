@@ -10,7 +10,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import store from '../redux/store'
 import {connect} from "react-redux"
 import  {selectCompany,selectEmployee,selectRoom} from "../redux/action"
-
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const mapDispatchToProps = (store) => {
   return {
     dispatchCompany: (val) => store.dispatch(selectCompany(val)),
@@ -79,6 +79,7 @@ const EmployeeDetail = ({navigation}) => {
 
       <View style={globalStyles.formContainer}>
       <Text style={globalStyles.heading}>Employee Details</Text>
+      
       <Text style={globalStyles.label}>Enter Company Name</Text>
       {/* {console.log(selectedCompany)} */}
       {console.log(store.getState())}
@@ -98,16 +99,13 @@ const EmployeeDetail = ({navigation}) => {
       {console.log(employeeNames)}
       <SelectList boxStyles={{borderRadius: 7, paddingVertical:13}} fontFamily='SignikaRegular' val={store.getState().selectedEmployee}
         setSelected={(val) => {
-          // setselected(val)
           mapDispatchToProps(store).dispatchEmployee(val) 
         }
         
         } 
         data={employeeNames} 
         save="value"
-    />
-    {/* <CustomComponent title="done"/> */}
-   
+    />   
     <Pressable style={globalStyles.button} onPress={pressHandler}>
       <Text style={globalStyles.buttonText}>Next</Text>
     </Pressable>
@@ -116,7 +114,6 @@ const EmployeeDetail = ({navigation}) => {
       <View style={globalStyles.employeeImg}>
       <Image source={require("../assets/employee4.png")} style={globalStyles.img}/>
       </View>
-      {/* <Button title='Done' onPress={pressHandler} style={globalStyles.button}/> */}
     </ScrollView>
   )
 }
