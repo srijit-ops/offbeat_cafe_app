@@ -1,4 +1,4 @@
-import {selecting_company,selecting_employee,selecting_room} from "../redux/actionTypes"
+import {selecting_company,selecting_employee,selecting_room,selecting_beverage,selecting_size,updating_logdata} from "../redux/actionTypes"
 import { screenNames } from '../utility/screenNames'
 import store from "./store"
 const selectCompany=(companyName)=>{
@@ -19,29 +19,43 @@ const selectRoom=(roomNumber)=>{
         payload:roomNumber
     }
 }
+const selectBeverage=(beverage)=>{
+  return{
+      type:selecting_beverage,
+      payload:beverage
+  }
+}
+const selectSize=(size)=>{
+  return{
+      type:selecting_size,
+      payload:size
+  }
+}
+const updateLogs=(arrWithObj)=>{
+  console.log(arrWithObj)
+  return{
+      type:updating_logdata,
+      payload:arrWithObj
+  }
+}
 console.log(selectCompany())
 const updateStateAndNavigate = (newState,navigation) => {
     return (dispatch) => {
       
-      // console.log(navigation)
-      // console.log(typeof(navigation.navigate(screenNames.employee)))
-      // console.log(typeof(navigateToNewScreenAction(navigation)))
-      // console.log(typeof(navigation.navigate(screenNames.employee)))
-      dispatch(selectCompany(newState));
-      dispatch(selectEmployee(newState));
-      dispatch(selectRoom(newState));
-      console.log("first")
-      console.log(store.getState())
-      if(store.getState().room==="" && store.getState().selectedCompany==="" && store.getState().selectedEmployee===""){
-        console.log("navigated")
-        console.log(store.getState().selectedCompany)
-        navigation.navigate(screenNames.employee)
-      }
-      // navigation.navigate(screenNames.employee)
-      // dispatch(navigateToNewScreenAction(navigation));
-    
-      
-      // console.log(typeof(navigateToNewScreenAction(navigation)))
+     
+      // dispatch(selectCompany(newState));
+      // dispatch(selectEmployee(newState));
+      // dispatch(selectRoom(newState));
+      // dispatch(selectBeverage(newState));
+      // dispatch(selectSize(newState));
+      // console.log("first")
+      // console.log(store.getState())
+      // if(store.getState().room==="" && store.getState().selectedCompany==="" && store.getState().selectedEmployee===""&& store.getState().selectedBeverage===""&& store.getState().selectedSize===""){
+      //   console.log("navigated")
+      //   console.log(store.getState().selectedCompany)
+      //   navigation.navigate(screenNames.employee)
+      // }
+      navigation.navigate(screenNames.employee)
     };
   };
   
@@ -55,4 +69,4 @@ const updateStateAndNavigate = (newState,navigation) => {
       navigation.navigate(screenNames.employee) //this inside part is undefined
     };
   };
-export {selectCompany,selectEmployee,selectRoom,updateStateAndNavigate}
+export {selectCompany,selectEmployee,selectRoom,selectSize,selectBeverage,updateStateAndNavigate,updateLogs}

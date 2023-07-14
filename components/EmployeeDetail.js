@@ -10,7 +10,6 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import store from '../redux/store'
 import {connect} from "react-redux"
 import  {selectCompany,selectEmployee,selectRoom} from "../redux/action"
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const mapDispatchToProps = (store) => {
   return {
     dispatchCompany: (val) => store.dispatch(selectCompany(val)),
@@ -74,6 +73,7 @@ const EmployeeDetail = ({navigation}) => {
     // console.log(selectedCompany,selectedEmployee,room)
   }
   console.log(store)
+  console.log(store.getState().logData)
   return (
     <ScrollView contentContainerStyle={globalStyles.rootView}>
 

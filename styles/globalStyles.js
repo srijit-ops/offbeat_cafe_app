@@ -101,5 +101,21 @@ export const globalStyles = StyleSheet.create({
     },
     select:{
         fontFamily: "SignikaRegular"
+    },
+    heads:{
+        flex:1,
+        justifyContent:"space-between",
+        alignItems:"center",
+        flexDirection:"row",
+        marginBottom:30
+    },
+    logCard:{
+        flex:1,
+        justifyContent:"space-between",
+        alignItems:"center",
+        flexDirection:"row",
+        paddingBottom:15,
+        borderBottomWidth:1,
+        borderBottomColor:"#4C4E52"
     }
 })

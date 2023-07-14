@@ -1,4 +1,4 @@
-import {selecting_company,selecting_employee,selecting_room} from "./actionTypes"
+import {selecting_company,selecting_employee,selecting_room,selecting_beverage,selecting_size,updating_logdata} from "./actionTypes"
 import initialState from "./initialState"
 const reducer=(state=initialState,action)=>{
     console.log(action.type)
@@ -20,6 +20,25 @@ const reducer=(state=initialState,action)=>{
             return {
                 ...state,
                room:action.payload
+               } 
+        }
+        case selecting_beverage:{
+            return {
+                ...state,
+               selectedBeverage:action.payload
+               } 
+        }
+        case selecting_size:{
+            return {
+                ...state,
+                selectedSize:action.payload
+               } 
+        }
+        case updating_logdata:{
+            console.log(action.payload)
+            return {
+                ...state,
+                logData:action.payload
                } 
         }
         default:{

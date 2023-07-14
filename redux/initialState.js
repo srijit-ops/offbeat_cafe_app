@@ -1,6 +1,9 @@
 let initialState={
     room:"",
     selectedEmployee:"",
-    selectedCompany:""
+    selectedCompany:"",
+    selectedBeverage:"",
+    selectedSize:"",
+    logData:[]
 }
 export default initialState
