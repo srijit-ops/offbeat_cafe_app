@@ -12,6 +12,7 @@ const BottomTabs=()=>{
     return(
         <NavigationContainer>
             <tab.Navigator tabBarOptions={{
+            
             showLabel:false, //so that all the existing styling gets deleted and we can create the style from scratch.
             style:{
                 position:"absolute",
@@ -21,7 +22,8 @@ const BottomTabs=()=>{
                 backgroundColor:"white",
                 borderRadius:15,
                 height:110
-            }
+            },
+            unmountOnBlur: true
         }}>
             <tab.Screen name={screenNames.employee}  component={EmployeeStack}  options={{
                 tabBarIcon:({focused})=>(
@@ -37,7 +39,8 @@ const BottomTabs=()=>{
                        <LogIcon fill={focused?"#FCAE1E":"#4C4E52"}/> 
                         <Text style={{color:focused?"#FCAE1E":"#4C4E52"}}>Logs</Text>
                     </View>
-                ),headerShown: false
+                ),headerShown: false,
+                unmountOnBlur: true
             }}></tab.Screen>
         </tab.Navigator>
         </NavigationContainer>

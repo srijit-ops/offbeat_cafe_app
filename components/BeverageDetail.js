@@ -75,10 +75,12 @@ const BeverageDetail = () => {
   , [beverageData])
 
   useEffect(() => {
+    
     // console.log(selectedBeverage,selectedSize)
     setTimeout(() => {
+      console.log(beverageData)
       if(store.getState().selectedBeverage&&store.getState().selectedSize){
-        for(let i=0;i<beverageData.data.length;i++){
+        for(let i=0;i<beverageData.data.length;i++){ //this beverageDta.data is coming undeifned in mobile- error
           console.log(beverageData.data[i])
           if(beverageData.data[i].beverage_name===store.getState().selectedBeverage && beverageData.data[i].size===store.getState().selectedSize){
             setprice(beverageData.data[i].price)
@@ -109,11 +111,10 @@ const BeverageDetail = () => {
   }, [price]) 
   
   const pressHandler=()=>{
-    console.log(store.getState().logData)
-    console.log(store.getState().logData.push(finalData))
+console.log(finalData)
     store.getState().logData.push(finalData)
     mapDispatchToProps(store).dispatchLogs(store.getState().logData) 
-    console.log(finalData)
+    console.log(store.getState().logData)
     const userData = JSON.stringify(finalData)
     // https://script.google.com/macros/s/AKfycbzvL-_YRDppk2GJfAyRFnhPP6LKlnR25rXK_zobnzkfiHkXz-eYbYPxY8NDSLCe_NsP/exec
     // https://script.google.com/macros/s/AKfycbwdelgLBZqPCDbUGdcj94oVUtq4JzfyOLVlg2F2B50uLt2sg462T65aB7NuveRdDiQY/exec final
@@ -123,8 +124,8 @@ const BeverageDetail = () => {
     .catch(error => {
       console.error('Error:', error);
     })
-    console.log(navigation)
-    mapDispatchToProps(store).dispatchStateAndNavigate("",navigation)
+      mapDispatchToProps(store).dispatchStateAndNavigate("",navigation)
+    
     
   }
   return (

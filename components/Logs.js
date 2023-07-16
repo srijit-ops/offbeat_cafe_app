@@ -6,7 +6,7 @@ import store from '../redux/store';
 import { useEffect } from 'react';
 import {connect} from "react-redux"
 const state=store.getState()
-const mapDispatchToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     data:state.logData
   };
@@ -21,6 +21,12 @@ const Logs = () => {
   //   console.log(store.getState().logData)
     
   // }, [store.getState().logData])
+  useEffect(()=>{
+    console.log("Component mount")
+
+    return ()=> console.log("Component unmount")
+    
+  },[mapStateToProps(state).data])
   
   return (
     <ScrollView style={{marginVertical:20,marginHorizontal:30}}>
@@ -32,15 +38,16 @@ const Logs = () => {
         <Text>Size</Text>
         <Text>Action</Text>
       </View>
-      {console.log(mapDispatchToProps(state).data)} //rendering Logs.js once even after updating state many times, that's why just first submission is coming, laters are not coming as not,rerendering. 
-      {mapDispatchToProps(state).data.map(()=>{
+      {/* rendering Logs.js once even after updating state many times, that's why just first submission is coming, laters are not coming as not,rerendering.  */}
+      {console.log(mapStateToProps(state).data)} 
+      {mapStateToProps(state).data.map((item)=>{
         return (
           <View style={globalStyles.logCard}>
           
-        <Text>{store.getState().selectedEmployee}</Text>
-        <Text>{store.getState().room}</Text>
-        <Text>{store.getState().selectedBeverage}</Text>
-        <Text>{store.getState().selectedSize}</Text>
+        <Text>{item.name}</Text>
+        <Text>{item.room}</Text>
+        <Text>{item.beverage}</Text>
+        <Text>{item.beverageSize}</Text>
         <Pressable onPress={pressHandler}>
         <LogIcon/> 
         </Pressable>
@@ -52,7 +59,7 @@ const Logs = () => {
   )
 }
 
-export default connect(mapDispatchToProps)(Logs);
+export default connect(mapStateToProps)(Logs);
 
 
 const styles = StyleSheet.create({})
