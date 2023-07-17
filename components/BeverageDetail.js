@@ -20,7 +20,8 @@ const mapDispatchToProps = (store) => {
   };
 };
 const BeverageDetail = () => {
-  const finalData={}
+  // const finalData={}
+  const [finalData, setfinalData] = useState({})
   const [beverageNames, setBeverageNames] = useState([])
   const [beverageSize, setBeverageSize] = useState([])
   // const [selectedSize, setSelectedSize] = useState("");
@@ -30,9 +31,7 @@ const BeverageDetail = () => {
   const navigation= useNavigation()
   useEffect(() => {
     axios.get(base_url+endPoints[1].beverageURL).then(response => {
-      console.log(response.data)
       setbeverageData(response.data)
-      console.log(beverageData)
       })
     .catch(error => {
       console.error('Error:', error);
@@ -75,43 +74,58 @@ const BeverageDetail = () => {
   , [beverageData])
 
   useEffect(() => {
-    
-    // console.log(selectedBeverage,selectedSize)
     setTimeout(() => {
       console.log(beverageData)
-      if(store.getState().selectedBeverage&&store.getState().selectedSize){
+      if(store.getState().selectedBeverage&&store.getState().selectedSize&&beverageData.data){
+        console.log()
         for(let i=0;i<beverageData.data.length;i++){ //this beverageDta.data is coming undeifned in mobile- error
           console.log(beverageData.data[i])
-          if(beverageData.data[i].beverage_name===store.getState().selectedBeverage && beverageData.data[i].size===store.getState().selectedSize){
+          console.log(store.getState().selectedBeverage)
+          console.log(store.getState().selectedSize)
+          if(beverageData.data[i].beverage_name===store.getState().selectedBeverage && beverageData.data[i].size.toUpperCase()===store.getState().selectedSize.toUpperCase()){ //sometimes this condition never getting true
             setprice(beverageData.data[i].price)
+            console.log(price)
             // price= i.price
-            console.log(beverageData.data[i].price)
             
           }else console.log("omg")
         }
-      }else console.log("fuck off")
+      }else console.log("omg-else")
       
     }, 1000);
     
-  }, [store.getState().selectedBeverage,store.getState().selectedSize]) 
+  }, [store.getState().selectedBeverage,store.getState().selectedSize,beverageData.data]) 
 
   useEffect(() => {
-   
-    finalData["name"]= store.getState().selectedEmployee
-    finalData["company"]= store.getState().selectedCompany
-    finalData["room"]= store.getState().room
-    finalData["beverage"]= store.getState().selectedBeverage
-    finalData["beverageSize"]=store.getState().selectedSize
-    console.log(price)
-    finalData["price"]=price
-    console.log(store.getState().selectedEmployee)
-
+    
+      if(price){
+        console.log(price)
+        setfinalData({
+          "name":store.getState().selectedEmployee,
+          "company":store.getState().selectedCompany,
+          "room":store.getState().room,
+          "beverage":store.getState().selectedBeverage,
+          "beverageSize":store.getState().selectedSize,
+          "price":price
+        })
+        // finalData["name"]= store.getState().selectedEmployee
+        // console.log(finalData.name)
+        // finalData["company"]= store.getState().selectedCompany
+        // finalData["room"]= store.getState().room
+        // finalData["beverage"]= store.getState().selectedBeverage
+        // finalData["beverageSize"]=store.getState().selectedSize
+        // finalData["price"]=price
+        console.log("1")
+        console.log(finalData)
+      }
    
     
   }, [price]) 
   
   const pressHandler=()=>{
-console.log(finalData)
+    console.log("2")
+    console.log(finalData)
+    if(Object.keys(finalData).length){
+      console.log(finalData)
     store.getState().logData.push(finalData)
     mapDispatchToProps(store).dispatchLogs(store.getState().logData) 
     console.log(store.getState().logData)
@@ -125,12 +139,10 @@ console.log(finalData)
       console.error('Error:', error);
     })
       mapDispatchToProps(store).dispatchStateAndNavigate("",navigation)
-    
-    
+    }
   }
   return (
     <ScrollView contentContainerStyle={globalStyles.rootView}>
-    {console.log(beverageNames)}
       <View style={globalStyles.formContainer}>
       <Text style={globalStyles.heading}>Beverage Details</Text>
       <Text style={globalStyles.label}>Enter Beverage Name</Text>

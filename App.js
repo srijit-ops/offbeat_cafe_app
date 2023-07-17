@@ -8,7 +8,6 @@ import {Provider} from 'react-redux';
 import store from "./redux/store"
 import BottomTabs from './routes/BottomTabs';
 export default function App() {
-  console.log(store)
   const [fontsLoaded, setfontsLoaded] = useState(false)
   const loadFonts= async()=>{
     await Font.loadAsync({
@@ -28,7 +27,6 @@ export default function App() {
   if(fontsLoaded){
      return (
       <Provider store={store}>
-        {console.log("captured")}
         <SafeAreaView style={styles.container}>
         <BottomTabs/>
       </SafeAreaView>

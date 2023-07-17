@@ -7,12 +7,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import LogIcon from "../assets/icons/LogIcon";
 import FormIcon from "../assets/icons/FormIcon";
 const tab= createBottomTabNavigator()
-console.log(tab)
 const BottomTabs=()=>{
     return(
         <NavigationContainer>
             <tab.Navigator tabBarOptions={{
-            
             showLabel:false, //so that all the existing styling gets deleted and we can create the style from scratch.
             style:{
                 position:"absolute",

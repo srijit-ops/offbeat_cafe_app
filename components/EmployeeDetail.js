@@ -18,9 +18,6 @@ const mapDispatchToProps = (store) => {
   };
 };
 const EmployeeDetail = ({navigation}) => {
-  // if( document.getElementsByClassName("css-text-1rynq56")[2]){
-  //   document.getElementsByClassName("css-text-1rynq56")[2].innerText=store.getState().selectedCompany
-  // }
   const [selected, setselected] = useState(store.getState().selectedEmployee)
   const [employeeNames, setemployeeNames] = useState([])
   const [companyNames, setcompanyNames] = useState([])
@@ -28,10 +25,8 @@ const EmployeeDetail = ({navigation}) => {
   // const [room, setroom] = useState(store.getState().selectedCompany)
   // const [selectedCompany, setSelectedCompany] = useState(store.getState().selectedCompany);
   let employeeData
-  console.log(store.getState())
   // console.log(selectedEmployee)
   useEffect(() => {
-    console.log("reached")
     axios.get(base_url+endPoints[0].employeeURL).then(response => {
       employeeData = response.data;
       function removeDuplicates(array) {
@@ -64,16 +59,12 @@ const EmployeeDetail = ({navigation}) => {
     .catch(error => {
       console.error('Error:', error);
     });
-    console.log(store)
   }, [])
 
   const pressHandler=()=>{
-    console.log(navigation)
     navigation.navigate(screenNames.beverage)
     // console.log(selectedCompany,selectedEmployee,room)
   }
-  console.log(store)
-  console.log(store.getState().logData)
   return (
     <ScrollView contentContainerStyle={globalStyles.rootView}>
 
@@ -82,13 +73,10 @@ const EmployeeDetail = ({navigation}) => {
       
       <Text style={globalStyles.label}>Enter Company Name</Text>
       {/* {console.log(selectedCompany)} */}
-      {console.log(store.getState())}
       <SelectList boxStyles={{borderRadius: 7, paddingVertical:13, marginBottom:13}} fontFamily='SignikaRegular'
         setSelected={(val) => {
           // setSelectedCompany(val)
-          console.log(val)
           mapDispatchToProps(store).dispatchCompany(val)
-          console.log(store.getState())
         }} 
         data={companyNames}
         save="value"
@@ -96,7 +84,6 @@ const EmployeeDetail = ({navigation}) => {
       <Text style={globalStyles.label}>Enter Room Number</Text>
       <TextInput keyboardType='numeric' placeholder="enter room no" onChangeText={(text)=>mapDispatchToProps(store).dispatchRoom(text)} value={store.getState().room} style={globalStyles.inputBox}/>
       <Text style={globalStyles.label}>Search employee name</Text>
-      {console.log(employeeNames)}
       <SelectList boxStyles={{borderRadius: 7, paddingVertical:13}} fontFamily='SignikaRegular' val={store.getState().selectedEmployee}
         setSelected={(val) => {
           mapDispatchToProps(store).dispatchEmployee(val) 

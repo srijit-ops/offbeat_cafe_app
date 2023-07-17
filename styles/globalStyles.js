@@ -1,6 +1,23 @@
 import { StyleSheet, Platform } from 'react-native'
 
 export const globalStyles = StyleSheet.create({
+    error:{
+        ...Platform.select({
+            ios: {
+                width:200,
+        height:200
+    },
+    android: {
+        width:200,
+        height:200
+    },
+    default: {
+        width:300,
+        height:300
+    }
+})
+        
+    },
     rootView:{
         paddingHorizontal:25,
         justifyContent:"center",
@@ -63,7 +80,7 @@ export const globalStyles = StyleSheet.create({
         
     },
     heading:{
-        fontSize:31,
+        fontSize:29,
         color:"#FCAE1E",
         fontFamily:"SignikaSemibold",
         marginBottom:22

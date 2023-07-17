@@ -1,8 +1,6 @@
 import {selecting_company,selecting_employee,selecting_room,selecting_beverage,selecting_size,updating_logdata} from "./actionTypes"
 import initialState from "./initialState"
 const reducer=(state=initialState,action)=>{
-    console.log(action.type)
-    console.log(state)
     switch (action.type){
         case selecting_company:{
             return {
@@ -35,14 +33,12 @@ const reducer=(state=initialState,action)=>{
                } 
         }
         case updating_logdata:{
-            console.log(action.payload)
             return {
                 ...state,
                 logData:action.payload
                } 
         }
         default:{
-            console.log("in")
             return state
         }
             
