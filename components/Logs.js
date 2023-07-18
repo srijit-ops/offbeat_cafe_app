@@ -5,14 +5,21 @@ import LogIcon from '../assets/icons/LogIcon'
 import store from '../redux/store';
 import { useEffect } from 'react';
 import {connect} from "react-redux"
+import DeleteIcon from "../assets/icons/DeleteIcon"
+import  {selectCompany,selectEmployee,selectRoom,selectSize,selectBeverage,updateStateAndNavigate,updateLogs} from "../redux/action"
 const state=store.getState()
 const mapStateToProps = (state) => {
   return {
-    data:state.logData
+    data:state.logData,
+    dispatchLogs:(val) => store.dispatch(updateLogs(val))
   };
 };
-const pressHandler=()=>{
+const pressHandler=(val)=>{
   console.log("deleted")
+  console.log(mapStateToProps(state).data)
+  var targetIndex=mapStateToProps(state).data.indexOf(val)
+  mapStateToProps(state).data.splice(targetIndex,1)
+  mapStateToProps(state).dispatchLogs( mapStateToProps(state).data)
 }
 const Logs = () => {
   const a=5
@@ -42,8 +49,8 @@ const Logs = () => {
           <Text>{item.room}</Text>
           <Text>{item.beverage}</Text>
           <Text>{item.beverageSize}</Text>
-          <Pressable onPress={pressHandler}>
-          <LogIcon/> 
+          <Pressable onPress={pressHandler(item)}>
+          <DeleteIcon fill={"#4C4E52"}/>
           </Pressable>
         </View>
           )
