@@ -82,7 +82,7 @@ const BeverageDetail = () => {
           console.log(beverageData.data[i])
           console.log(store.getState().selectedBeverage)
           console.log(store.getState().selectedSize)
-          if(beverageData.data[i].beverage_name===store.getState().selectedBeverage && beverageData.data[i].size.toUpperCase()===store.getState().selectedSize.toUpperCase()){ //sometimes this condition never getting true
+          if(beverageData.data[i].beverage_name===store.getState().selectedBeverage && beverageData.data[i].size.toUpperCase()===store.getState().selectedSize.toUpperCase()){ //sometimes this condition never getting true, lemon tea, small still have problem
             setprice(beverageData.data[i].price)
             console.log(price)
             // price= i.price

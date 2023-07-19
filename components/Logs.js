@@ -11,6 +11,10 @@ const state=store.getState()
 const mapStateToProps = (state) => {
   return {
     data:state.logData,
+  };
+};
+const mapDispatchToProps = (store) => {
+  return {
     dispatchLogs:(val) => store.dispatch(updateLogs(val))
   };
 };
@@ -18,8 +22,10 @@ const pressHandler=(val)=>{
   console.log("deleted")
   console.log(mapStateToProps(state).data)
   var targetIndex=mapStateToProps(state).data.indexOf(val)
+  console.log(targetIndex)
   mapStateToProps(state).data.splice(targetIndex,1)
-  mapStateToProps(state).dispatchLogs( mapStateToProps(state).data)
+  mapDispatchToProps(store).dispatchLogs( mapStateToProps(state).data) //as there is  unmountonblur:true so, the particular data is getting deleted only when navigating away from logs tab, so the logs component is getting updated only after navigating away from logs tab, but we need to also re render it when updating redux store from log comp.
+  console.log( store.getState().logData)
 }
 const Logs = () => {
   const a=5
@@ -44,12 +50,12 @@ const Logs = () => {
         </View>
         {mapStateToProps(state).data.map((item)=>{
           return (
-            <View style={globalStyles.logCard}>
+          <View style={globalStyles.logCard}>
           <Text>{item.name}</Text>
           <Text>{item.room}</Text>
           <Text>{item.beverage}</Text>
           <Text>{item.beverageSize}</Text>
-          <Pressable onPress={pressHandler(item)}>
+          <Pressable onPress={()=>pressHandler(item)}>
           <DeleteIcon fill={"#4C4E52"}/>
           </Pressable>
         </View>
@@ -69,7 +75,7 @@ const Logs = () => {
   
 }
 
-export default connect(mapStateToProps)(Logs);
+export default connect(mapStateToProps,mapDispatchToProps)(Logs);
 
 
 const styles = StyleSheet.create({})
